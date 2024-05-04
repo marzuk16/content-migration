@@ -3,7 +3,7 @@ import {
     generateCategorySql,
     generateContent,
     generateContentTags
- } from "./readCSVAndGenerateSql";
+ } from "./src/readCSVAndGenerateSql";
 
  generateTagsSql();
  generateCategorySql();
