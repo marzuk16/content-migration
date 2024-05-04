@@ -1,8 +1,8 @@
 #!/bin/bash
 
-directory="../data/input"
+directory="./data/input"
 
-output_file="../data/output/file_names.txt"
+output_file="./data/output/file_names.txt"
 
 ls "$directory" | paste -sd "," - > "$output_file"
 
