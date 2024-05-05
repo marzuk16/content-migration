@@ -6,6 +6,6 @@ const {
  } = require("./src/readCSVAndGenerateSql");
 
  generateTagsSql();
-//  generateCategorySql();
-//  generateContent();
-//  generateContentTags();
+ generateCategorySql();
+ generateContent();
+ generateContentTags();
