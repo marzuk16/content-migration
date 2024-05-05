@@ -1,11 +1,11 @@
 const fs = require("fs");
 const { parse } = require("csv-parse");
 
-import * as queries from "./queries";
-import { 
+const queries = require("./queries");
+const { 
   sanitizeSqlValue, 
   checkfiles,
-  getTodayDate } from "./utils";
+  getTodayDate } = require("./utils");
 
 
   const CONTENT_LIBRARY_CATEGORY_THUMBNAIL = "/content-library/category";
@@ -14,7 +14,7 @@ import {
 
 
 
-export const generateTagsSql = () => {
+exports.generateTagsSql = () => {
   fs.createReadStream("./data/input/tags.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
   .on("data", function (data) {
@@ -35,7 +35,7 @@ export const generateTagsSql = () => {
   });
 }
 
-export const generateCategorySql = () => {
+exports.generateCategorySql = () => {
   let contentCategory = [];
   fs.createReadStream("./data/input/content-category.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
@@ -74,7 +74,7 @@ export const generateCategorySql = () => {
   }
 }
 
-export const generateContent = () => {
+exports.generateContent = () => {
   let content = [];
   let fileSizeInMB = new Map();
 
@@ -136,7 +136,7 @@ export const generateContent = () => {
   }
 }
 
-export const generateContentTags = () => {
+exports.generateContentTags = () => {
   fs.createReadStream("./data/input/content-information.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
   .on("data", function (data) {

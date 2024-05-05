@@ -1,11 +1,11 @@
-export const sanitizeSqlValue = (data) => {
+exports.sanitizeSqlValue = (data) => {
     return data
-    .replace("'", "''")
+    .replace(/(?!^)'(?!$)/g, "''")
     .replace("(", "''(")
     .replace(")", "'')");
 };
 
-export const checkfiles = (existingFilesSet, fileNames) => {
+exports.checkfiles = (existingFilesSet, fileNames) => {
     const noOfExistingFiles = existingFilesSet.size();
 
     for (const name of fileNames) {
@@ -15,6 +15,6 @@ export const checkfiles = (existingFilesSet, fileNames) => {
     return noOfExistingFiles === existingFilesSet.size();
 };
 
-export const getTodayDate = () => {
+exports.getTodayDate = () => {
     return new Date().toLocaleDateString('en-EN').split( '/' ).reverse( ).join( '-' );;
 }
