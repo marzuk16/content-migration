@@ -16,5 +16,5 @@ export const checkfiles = (existingFilesSet, fileNames) => {
 };
 
 export const getTodayDate = () => {
-    return "";
+    return new Date().toLocaleDateString('en-EN').split( '/' ).reverse( ).join( '-' );;
 }

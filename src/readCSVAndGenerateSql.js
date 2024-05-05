@@ -7,6 +7,13 @@ import {
   checkfiles,
   getTodayDate } from "./utils";
 
+
+  const CONTENT_LIBRARY_CATEGORY_THUMBNAIL = "/content-library/category";
+  const CONTENT_LIBRARY_CONTENT_THUMBNAIL = "/content-library/content/thumbnail";
+  const CONTENT_LIBRARY_CONTENT = "/content-library/content";
+
+
+
 export const generateTagsSql = () => {
   fs.createReadStream("./data/input/tags.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
@@ -69,6 +76,8 @@ export const generateCategorySql = () => {
 
 export const generateContent = () => {
   let content = [];
+  let fileSizeInMB = new Map();
+
   fs.createReadStream("./data/input/content-information.csv")
   .pipe(parse({ delimiter: ",", from_line: 2 }))
   .on("data", function (data) {
@@ -82,16 +91,31 @@ export const generateContent = () => {
     console.log(error.message);
   });
 
+  fs.createReadStream("./data/input/content-information.csv")
+  .pipe(parse({ delimiter: ",", from_line: 2 }))
+  .on("data", function (data) {
+    fileSizeInMB.set(data[0], data[1]);
+  })
+  .on("end", function () {
+    console.log("file sizes reading finished");
+  })
+  .on("error", function (error) {
+    console.log("Error when reading file sizes: ");
+    console.log(error.message);
+  });
+
   let existingContentThumbsSet = new Set([]);
   let existingContentsSet = new Set([]);
 
-  if(checkfiles(contentCategory.map(existingContentThumbsSet, data => data[6])) && checkfiles(existingContentsSet, contentCategory.map(data => data[7]))){
+  if(checkfiles(existingContentThumbsSet, contentCategory.map(existingContentThumbsSet, data => data[6])) 
+      && checkfiles(existingContentsSet, contentCategory.map(data => data[7]))
+    ){
     for (const data of contentCategory) {
       const thumbPath = "/" + getTodayDate() + CONTENT_LIBRARY_CONTENT_THUMBNAIL + "/" + data[6];
       const contentPath = "/" + getTodayDate() + CONTENT_LIBRARY_CONTENT + "/" + data[7];
 
       const sqlRow = queries.WRITE_CONTENT_INFORMATION
-                            .replace("{content_category}", queries.READ_CATEGORY_ID_BY_NAME
+                            .replace("{contentCategory}", queries.READ_CATEGORY_ID_BY_NAME
                                                                   .replace("{name}", sanitizeSqlValue(data[1].toLowerCase()))
                             )
                             .replace("{title}", sanitizeSqlValue(data[2]))
@@ -100,7 +124,7 @@ export const generateContent = () => {
                             .replace("{description}", sanitizeSqlValue(data[5]))
                             .replace("{thumbImagePath}", thumbPath)
                             .replace("{contentPath}", contentPath)
-                            .replace("{fileSize}", fileSizeInMB + "")
+                            .replace("{fileSize}", fileSizeInMB.get(data[7]) + "")
                             .replace("{isPublished}", data[8] == "Yes" ? "1" : "0")
                             .replace("{viewOrder}", data[9]) + ";\n";
 
