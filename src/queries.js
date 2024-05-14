@@ -21,4 +21,4 @@ exports.WRITE_CONTENT_INFORMATION =
 exports.WRITE_CONTENT_INFORMATION_TAGS =
         "INSERT INTO content_information_tags ( content_information_id, master_data_entry_id) VALUES ( ({contentInformationId}), ({masterDataEntryId}) )";
 
-exports.CP_COMMAND = "cp -av source /home/ipemis/ \n";
+exports.CP_COMMAND = "cp -av source destination \n";
