@@ -1,11 +1,11 @@
-const { 
+const {
     generateTagsSql,
     generateCategorySql,
     generateContent,
-    generateContentTags
- } = require("./src/readCSVAndGenerateSql");
+    generateRestContent
+} = require("./src/readCSVAndGenerateSql");
 
- generateTagsSql();
- generateCategorySql();
- generateContent();
- generateContentTags();
+// generateTagsSql();
+// generateCategorySql();
+// generateContent();
+generateRestContent();

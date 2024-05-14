@@ -4,13 +4,14 @@
 # chmod +x file_sizes.sh
 # ./file_sizes.sh
 
-directory="./data/input"
-content_file_sizes="./data/input/content_file_sizes.csv"
+content_file_sizes="./content_file_sizes.csv"
 
 # Header for the CSV file
 echo "File Name,Size (MB)" > "$content_file_sizes"
 
-for file in "$directory"/*; do
+cd ~/file-storage/unicef-content06Apr2024/03.\ content-files
+
+for file in ./*; do
     # Check if the file is a regular file
     if [ -f "$file" ]; then
         file_size=$(stat -c %s "$file")
@@ -19,7 +20,8 @@ for file in "$directory"/*; do
         file_name=$(basename "$file")
 
         echo "$file_name,$file_size_mb" >> "$content_file_sizes"
+        #echo "\"$file_name\",$file_size_mb"
     fi
 done
 
-echo "File sizes have been saved to $csv_file"
+echo "File sizes have been saved to $content_file_sizes"
